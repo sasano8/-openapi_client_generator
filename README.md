@@ -1,5 +1,10 @@
 # openapi_client_generator
-openapiから
+openapiからクライアント／サーバコードを生成します。
+
+これは、[OpenAPI Generator Online](http://api.openapi-generator.tech)のラッパクライアントです。
+
+詳しくは、[openapi-generator](https://github.com/OpenAPITools/openapi-generator)を参照ください。
+
 
 # Requirement
 
