@@ -5,7 +5,8 @@ import yaml
 import pytest
 from pytest import TempdirFactory
 from typer.testing import CliRunner
-from openapi_client_generator.__main__ import app
+
+from openapi_client_generator.cli import app
 from openapi_client_generator.generator import get_response
 
 
