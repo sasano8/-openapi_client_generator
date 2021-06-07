@@ -1,9 +1,12 @@
 # openapi_client_generator
 openapiからクライアント／サーバコードを生成します。
+このツールは次のコンバータを統合したものです。
 
-これは、[OpenAPI Generator Online](http://api.openapi-generator.tech)のラッパクライアントです。
-
-詳しくは、[openapi-generator](https://github.com/OpenAPITools/openapi-generator)を参照ください。
+- openapi to code: [openapi-generator](https://github.com/OpenAPITools/openapi-generator)
+- openapi to code: [OpenAPI Generator Online](http://api.openapi-generator.tech)
+- json to jsonschema: [genson](https://github.com/wolverdude/genson/)
+- jsonschema to pydantic: [datamodel-code-generator](https://github.com/koxudaxi/datamodel-code-generator)
+- pydantic to sqlalchemy: 自作
 
 
 # Requirement
