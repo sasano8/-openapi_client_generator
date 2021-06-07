@@ -1,14 +1,14 @@
 import json
 import tempfile
+from typing import List, Literal
+
 import hjson
+from datamodel_code_generator import InputFileType, generate
 from fastapi.responses import PlainTextResponse
 from genson import SchemaBuilder
-from typing import List, Literal
-from datamodel_code_generator import generate, InputFileType
 from pydantic import BaseModel
 
 from ..apimock import APIRouter
-
 
 router = APIRouter()
 
@@ -100,8 +100,9 @@ def get_models_by_code(code):
 
     mod = types.ModuleType("tmp")
     exec(code, mod.__dict__)
-    from pydantic import BaseModel
     from enum import Enum
+
+    from pydantic import BaseModel
 
     it_1 = (
         x

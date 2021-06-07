@@ -21,8 +21,8 @@ FastAPI = MockAPI
 APIRouter = MockAPI
 
 try:
-    from fastapi import FastAPI  # type: ignore
     from fastapi import APIRouter  # type: ignore
+    from fastapi import FastAPI  # type: ignore
 
 except:
     pass

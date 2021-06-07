@@ -1,9 +1,10 @@
 import json
-import typer
 import logging
 
-from .generator import Writer, load_spec
+import typer
+
 from .api import generator
+from .generator import Writer, load_spec
 
 app = typer.Typer()
 

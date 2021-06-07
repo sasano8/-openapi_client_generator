@@ -1,13 +1,13 @@
-from dataclasses import dataclass
-import urllib.request
 import json
-import yaml
-import zipfile
-from io import BytesIO
-import tempfile
 import os
 import shutil
+import tempfile
+import urllib.request
+import zipfile
+from dataclasses import dataclass
+from io import BytesIO
 
+import yaml
 
 USER_AGENET = "VM322:1 Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"
 

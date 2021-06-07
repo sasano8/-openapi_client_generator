@@ -1,14 +1,14 @@
+import json
 import os
 import pathlib
-import json
-import yaml
+
 import pytest
+import yaml
 from pytest import TempdirFactory
 from typer.testing import CliRunner
 
 from openapi_client_generator.cli import app
 from openapi_client_generator.generator import get_response
-
 
 runner = CliRunner()
 
