@@ -14,6 +14,7 @@ insert_final_newline = false
 [*.py]
 indent_size = 4
 indent_style = space
+skip = venv
 
 # 複数の拡張子を指定する場合、空白を挟まないこと。空白を挟むと動作しない。
 [*.{json,json5,yml,yaml}]
