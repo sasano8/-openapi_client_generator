@@ -1,10 +1,12 @@
 import json
 
-from .generator import OpenapiClientGenerator
-from .apimock import app
+from ..generator import OpenapiClientGenerator
+from ..apimock import APIRouter
+
+router = APIRouter()
 
 
-@app.get("/client/list")
+@router.get("/client/list")
 def client_list(
     endpoint: str = "http://api.openapi-generator.tech",
 ):
@@ -13,7 +15,7 @@ def client_list(
     return obj.get_capability()
 
 
-@app.post("/client/generate")
+@router.post("/client/generate")
 def client_generate(
     endpoint: str = "http://api.openapi-generator.tech",
     client_type: str = "typescript-axios",

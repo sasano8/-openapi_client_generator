@@ -1,5 +1,18 @@
 {
   // https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
-  "configurations": []
+  "configurations": [
+    {
+      "name": "Python: uvicorn debug",
+      "type": "python",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": [
+        "--reload",
+        "--port=8000",
+        "openapi_client_generator.api:app"
+      ],
+      "justMyCode": false // 外部ライブラリ等もデバッグする
+    }
+  ]
 }

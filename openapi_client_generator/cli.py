@@ -3,7 +3,7 @@ import typer
 import logging
 
 from .generator import Writer, load_spec
-from . import api
+from .api import generator
 
 app = typer.Typer()
 
@@ -15,7 +15,7 @@ def client_list(
     endpoint: str = "http://api.openapi-generator.tech",
 ):
     "Openapiから生成可能なクライアントの識別子を列挙します"
-    result = api.client_list(endpoint=endpoint)
+    result = generator.client_list(endpoint=endpoint)
     typer.echo(result)
 
 
@@ -37,7 +37,7 @@ def client_generate(
         spec_dict = load_spec(spec_file)
         spec_json = json.dumps(spec_dict, ensure_ascii=False)
 
-    download_link = api.client_generate(
+    download_link = generator.client_generate(
         endpoint=endpoint,
         client_type=client_type,
         spec_url=spec_url,

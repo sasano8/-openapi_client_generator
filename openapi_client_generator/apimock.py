@@ -10,15 +10,19 @@ class MockAPI:
     async def __call__(self, scope, receive, send):
         raise NotImplementedError("fastapi is not installed.")
 
+    def include_router(self, **kwargs):
+        pass
+
     def __getattr__(self, name):
         return endpoint
 
 
-app = MockAPI()
+FastAPI = MockAPI
+APIRouter = MockAPI
 
 try:
-    from fastapi import FastAPI
+    from fastapi import FastAPI  # type: ignore
+    from fastapi import APIRouter  # type: ignore
 
-    app = FastAPI()  # type: ignore
 except:
     pass
