@@ -1,3 +1,5 @@
+"""fastapi用"""
+
 # type: ignore
 from ..apimock import FastAPI
 

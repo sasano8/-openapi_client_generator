@@ -10,3 +10,8 @@ format-isort:
 
 test:
 	@echo [pytest] && poetry run pytest .
+
+documentation:
+    # なぜか動かない
+	@poetry run sphinx-apidoc --module-first --separate -f -o ./docs .
+	@poetry run sphinx-build -b singlehtml ./docs ./docs/_build

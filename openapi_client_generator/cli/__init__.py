@@ -3,8 +3,8 @@ import logging
 
 import typer
 
-from .api import generator
-from .generator import Writer, load_spec
+from ..api import generator
+from ..generator import Writer, load_spec
 
 app = typer.Typer()
 
