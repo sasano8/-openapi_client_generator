@@ -6,11 +6,10 @@ from typing import Iterable, List, Literal, Type
 import hjson
 import yaml
 from datamodel_code_generator import InputFileType, generate
+from fastapi import APIRouter
 from fastapi.responses import PlainTextResponse
 from genson import SchemaBuilder
 from pydantic import BaseModel
-
-from ..apimock import APIRouter
 
 router = APIRouter()
 

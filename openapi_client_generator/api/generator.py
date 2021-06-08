@@ -1,6 +1,7 @@
 import json
 
-from ..apimock import APIRouter
+from fastapi import APIRouter
+
 from ..generator import OpenapiClientGenerator
 
 router = APIRouter()
