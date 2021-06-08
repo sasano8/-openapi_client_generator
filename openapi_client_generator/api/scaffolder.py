@@ -1,8 +1,10 @@
 import json
 import tempfile
-from typing import List, Literal
+from enum import Enum
+from typing import Iterable, List, Literal, Type
 
 import hjson
+import yaml
 from datamodel_code_generator import InputFileType, generate
 from fastapi.responses import PlainTextResponse
 from genson import SchemaBuilder
@@ -13,15 +15,44 @@ from ..apimock import APIRouter
 router = APIRouter()
 
 
+def load(extension: str, data: str):
+    if extension == "json":
+        return hjson.loads(data)
+    elif extension == "json":
+        return hjson.loads(data)
+    elif extension == "yaml":
+        return yaml.safe_load(data)
+    elif extension == "yml":
+        return yaml.safe_load(data)
+    elif extension == "auto":
+        raise NotImplementedError()
+    else:
+        raise Exception(f"Unkown file extension: {extension}")
+
+    # 現在、api経由でyamlを上手く処理できない
+
+    # 具体的には、UI上では改行コード等エスケープ処理されていないプレーンなテキストを放り込みたいが、fastapiが対応していない
+    # text/plainによって、UI上では問題がないが、fastapiへのリクエスト処理過程でjsonとして処理されるため、パースエラーが発生する（改行がエスケープされていない模様）
+
+    # 1. text/plainなど関係なくJSONで扱われてしまう
+    # https://github.com/tiangolo/fastapi/issues/1018
+
+    # 2.代わりにFormにしてみるも、Swagger UIにコピペ時に改行コードが無視されてしまう
+
+    # 関数の引数に渡される前にjsonデコード処理が行われる。
+    # そのため、fastapiの処理の前に処理しなければいけない
+
+
 @router.post("/to_jsonschema")
-def to_jsonschema(
+async def to_jsonschema(
     all_required: bool = True,
     extension: Literal["json"] = "json",
     root_name: str = "Model",
     payload: str = '{name: "test", age: 20}',
 ):
     """データから型を類推したjsonschemaを生成します"""
-    pyobj = hjson.loads(payload)
+    pyobj = load(extension=extension, data=payload)
+
     assert isinstance(pyobj, dict)
 
     if pyobj.get("$schema"):
@@ -40,7 +71,7 @@ def to_pydantic(
     extension: Literal["json"] = "json",
     payload: str = '{name: "test", age: 20}',
 ):
-    """"""
+    """仕様から、pydanticおよびにenumのモデルコードを出力します。openapi2系は3に変換する必要があります。"""
     if type_ == InputFileType.Json.value:
         input_data = to_jsonschema(
             all_required=all_required, payload=payload, extension=extension
@@ -48,11 +79,11 @@ def to_pydantic(
         input_file_type = InputFileType.JsonSchema
 
     elif type_ == InputFileType.JsonSchema.value:
-        input_data = hjson.loads(payload)
+        input_data = load(extension=extension, data=payload)
         input_file_type = InputFileType.JsonSchema
 
     elif type_ == InputFileType.OpenAPI.value:
-        input_data = hjson.loads(payload)
+        input_data = load(extension=extension, data=payload)
         input_file_type = InputFileType.OpenAPI
     else:
         raise Exception()
@@ -91,16 +122,18 @@ def to_sqlalchemy(
     code = to_pydantic(
         type_=type_, all_required=all_required, extension=extension, payload=payload
     )
-    code = SqlalchemyCodeGenerator.generate_by_models(get_models_by_code(code))
+    models = get_models_by_code(code)
+    code = SqlalchemyCodeGenerator.generate_by_models(
+        x for x in models if issubclass(x, BaseModel)
+    )
     return code
 
 
-def get_models_by_code(code):
+def get_models_by_code(code) -> List[Type]:
     import types
 
     mod = types.ModuleType("tmp")
     exec(code, mod.__dict__)
-    from enum import Enum
 
     from pydantic import BaseModel
 
@@ -113,21 +146,12 @@ def get_models_by_code(code):
     return list(it_2)
 
 
-def to_pydantic_models(
-    type_: Literal["openapi", "jsonschema", "json"] = "json",
-    all_required: bool = True,
-    payload: str = '{name: "test", age: 20}',
-):
-    code = to_pydantic(type_=type_, all_required=all_required, payload=payload)
-    models = get_models_by_code(code)
-
-
 class SqlalchemyCodeGenerator:
-    def __init__(self, obj: BaseModel):
+    def __init__(self, obj: Type):
         self.obj = obj
 
     @classmethod
-    def generate_by_models(cls, models: List[BaseModel]):
+    def generate_by_models(cls, models: Iterable[Type]):
         codes = []
         for model in models:
             gen = SqlalchemyCodeGenerator(model)
