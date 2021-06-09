@@ -13,7 +13,7 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath("../openapi_client_generator"))
+sys.path.insert(0, os.path.abspath("../"))
 
 
 # -- Project information -----------------------------------------------------
@@ -34,6 +34,7 @@ release = "0.0.1"
 extensions = [
     "sphinx.ext.autodoc",  # docstring自動読込
     "sphinx.ext.napoleon",  # docstringパース
+    "recommonmark",  # markdown
 ]
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
@@ -57,3 +58,9 @@ html_theme = "sphinx_rtd_theme"
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
+
+source_suffix = {
+    ".rst": "restructuredtext",
+    # ".txt": "markdown",
+    ".md": "markdown",
+}

@@ -7,12 +7,12 @@ Welcome to hoge's documentation!
 ================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Contents:
 
-   openapi_client_generator
-   openapi_client_generator.api
-   openapi_client_generator.cli
+   overview
+   auto/openapi_client_generator.api
+   auto/openapi_client_generator.cli
 
 
 Indices and tables

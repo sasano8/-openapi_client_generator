@@ -12,6 +12,6 @@ test:
 	@echo [pytest] && poetry run pytest .
 
 documentation:
-    # なぜか動かない
-	@poetry run sphinx-apidoc --module-first --separate -f -o ./docs .
+	@rm -rf ./docs/auto
+	@poetry run sphinx-apidoc --module-first -f -o ./docs/auto ./openapi_client_generator
 	@poetry run sphinx-build -b singlehtml ./docs ./docs/_build

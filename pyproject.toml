@@ -27,6 +27,7 @@ fastapi = "^0.65.1"
 uvicorn = "^0.14.0"
 sphinx = "^4.0.2"
 sphinx_rtd_theme = "^0.5.2"
+recommonmark = "^0.7.1"
 
 
 [build-system]

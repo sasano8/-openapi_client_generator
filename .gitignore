@@ -11,3 +11,4 @@ __pycache__
 datalake
 secret_firebase.json
 docs/_build
+docs/auto
